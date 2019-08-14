@@ -1,5 +1,31 @@
-let array = [1,2,3,4,5];
+'use strict';
 
-array.forEach(item => console.log(item));
+const FileEdit = require('../edit-file');
+const faker = require('faker');
 
-console.log('Ignorance is bliss');
+const currentEdit = new FileEdit();
+
+console.log(__dirname);
+
+currentEdit.readFile(`${__dirname}/person.json`, (error, fileContents) => {
+    if (error){
+        console.error(error);
+    } else {
+        fileContents.firstName = faker.name.firstName();
+        fileContents.lastName = faker.name.lastName();
+        let buf = Buffer.from(JSON.stringify(fileContents));
+        currentEdit.writeFile(`${__dirname}/person.json`, buf, (error) => {
+            if (error){
+                console.error(error);
+            } else {
+                currentEdit.readFile(`${__dirname}/person.json`, (error, fileContents) => {
+                    if (error){
+                        console.error(error);
+                    } else {
+                        console.log('CHANGED FILE INFORMATION', fileContents);
+                    }
+                })
+            }
+        })
+    }
+});
