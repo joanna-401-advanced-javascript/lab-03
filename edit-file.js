@@ -8,7 +8,17 @@ class FileEdit {
             if (error){
                 callback(error);
             } else {
-                callback(undefined, fileContents.toString());
+                callback(undefined, JSON.parse(fileContents.toString()));
+            }
+        })
+    }
+
+    writeFile(fileName, data, callback){
+        fs.writeFile(fileName, data, (error, data) => {
+            if (error){
+                callback(error);
+            } else {
+                callback(undefined, data);
             }
         })
     }
