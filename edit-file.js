@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const fsExtra = require('fs-extra');
 
 class FileEdit {
     readFile(fileName, callback){
@@ -21,6 +22,14 @@ class FileEdit {
                 callback(undefined, data);
             }
         })
+    }
+
+    readFilePromises(fileName){
+        return fsExtra.readFile(fileName);
+    }
+
+    writeFilePromises(fileName, data){
+        return fsExtra.writeFile(fileName, data);
     }
 }
 
